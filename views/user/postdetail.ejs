@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="valentine">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post Detail</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <!-- <style>
+      #section1 {
+        width: 100%;
+        height: 40%;
+        background-color: gray;
+        margin: 30px;
+      }
+      #section11 {
+        width: 47%;
+        float: left;
+      }
+      #section12 {
+        width: 50%;
+        float: right;
+      }
+      #section2 {
+        display: block;
+        margin-top: 30%;
+      }
+      .com-rep {
+        border: 1px solid greenyellow;
+        margin: 10px;
+        padding: 10px;
+      }
+      .rep-body {
+        text-align: end;
+      }
+      .rep-body textarea {
+        display: inline-block;
+        text-align: end;
+      }
+      .rep-body button {
+        margin-left: 73%;
+        display: block;
+        width: 27%;
+        float: end;
+      }
+    </style> -->
+  </head>
+  <body>
+    <% include ../partials/navbar %>
+
+
+
+
+
+
+
+    <h1 class="text-center text-4xl">Post Detail</h1>
+
+    <section class="text-gray-600 body-font overflow-hidden">
+        <div class="container px-5 py-24 mx-auto">
+          <div class="lg:w-4/5 mx-auto flex flex-wrap">
+            <img alt="ecommerce" class="lg:w-1/4 w-full lg:h-auto h- object-cover object-center rounded" src="<%= post.image %>">
+            <div class="lg:w-1/4 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+              <h1 class="text-gray-900 text-3xl title-font font-medium mb-1"><%= post. title %></h1>
+              <h2 class="text-sm title-font text-gray-500 tracking-widest"><%= post.author.name %>
+               
+              </h2>
+              <h2 class="text-sm title-font text-gray-500 tracking-widest"><%= post.created %></h2>
+                <div class="border-b border-gray-400 my-3"></div>
+              <p class="leading-relaxed">
+                <%= post.content %>
+              </p>
+              <div class="border-b border-gray-400 my-3"></div>
+              <p>Total Like &nbsp;&nbsp;&nbsp;&nbsp; <%= post.like.length %></p>
+
+              <div class="border-b border-gray-400 my-3"></div>
+              <div>
+                <a class="btn btn-primary btn-sm" href="/users/postupdate/<%= post._id%>">Update</a>
+                <a class="btn btn-error btn-sm" href="/users/postdelete/<%= post._id%>">Delete</a>
+              </div>
+              <div class="border-b border-gray-400 my-3"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <% for (var i = 0; i < comments.length; i++) {%>
+        <div class="border-b-2 border-indigo-500">
+          <!-- comment -->
+          <div class="card w-3/5 mr-auto bg-yellow-100 shadow-xl m-4">
+              <div class="card-body">
+                <h2 class="card-title">
+                  <%= comments[i].commenter.name %>
+              </h2>
+                <h2 class="font-thin">
+                  <%= comments[i].created %>
+              </h2>
+                <p class="font-light">
+                  <%= comments[i].comment %>
+              </p>
+              </div>
+            </div>
+            <!-- reply -->
+            <% if (comments[i].reply) {%>
+            <div class="card w-3/5 ml-auto  bg-blue-200 shadow-xl m-4">
+              <div class="card-body">
+                <h2 class="text-right text-xl font-bold">
+                  <%= post.author.name %>(Author)
+              </h2>
+                <h2 class="text-right font-thin">
+                  <%= comments[i].updated %>
+              </h2>
+                <p class="text-right font-light">
+                  <%= comments[i].reply %>
+              </p>
+              </div>
+            </div>
+            <%}else{%>
+              
+              <div class="card w-1/3 ml-auto  bg-blue-200 shadow-xl m-4">
+                  <div class="rep-body text-center">
+                <input type="hidden" value="<%= comments[i]._id %>">
+                <textarea 
+                class="textarea textarea-success mt-2" 
+                cols="50" 
+                rows="5"></textarea>
+                    <button class="btnRep  btn btn-primary text-center rounded-md  btn-block btn-sm">Reply</button>
+                  </div>
+              </div>
+          <%}%>
+        </div>
+        <%}%>
+  </body>
+  <script src="/javascripts/jquery-3.6.0.min.js"></script>
+  <script>
+    $(".btnRep").click(function (){
+        var data = {
+            cid : $(this).parents()[0].children[0].value,
+            reply : $(this).parents()[0].children[1].value,
+        }
+        $.ajax({
+        url : "/users/givereply",
+        data : data,
+        type : "POST",
+    }).done(function(result){
+        if (result.status == 'error'){
+            alert("Somethings was wrong");
+        }else{
+            location.reload();
+        }
+    });
+    });
+    
+  </script>
+</html>

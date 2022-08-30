@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="valentine">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Post List</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <!-- <style>
+        div{
+            width: 300px;
+            height: 320px;
+            background-color: bisque;
+            border: 1px solid gold;
+            display: inline-block;
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style> -->
+</head>
+<body>
+    <% include ../partials/navbar %>
+
+    <div class="text-center text-4xl">My Post List</div>
+    <% for (var i = 0; i < posts.length; i++){%>
+          <div class="card w-96 bg-base-300 shadow-xl inline-block m-2 mt-4 ml-8">
+            <figure class="px-10 pt-10">
+              <img src="<%= posts[i].image %>" alt="<%= posts[i].title %>" class="rounded-xl h-80" />
+            </figure>
+            <div class="card-body items-center text-center">
+              <h2 class="card-title"><%= posts[i].title %></h2>
+              <p><%= posts[i].author.name %></p>
+              <p><%= posts[i].content %></p>
+              <div class="card-actions">
+                <a class="btn btn-primary" href="/users/postdetail/<%= posts[i]._id %>" >
+                    More Detail
+                </a>
+              </div>
+            </div>
+          </div>
+        <%}%>
+
+
+    <!-- <h1>My Post List</h1>
+    <% for (var i = 0; i < posts.length; i++){%>
+    <div>
+        <h3><%= posts[i].title %></h3>
+        <p><%= posts[i].author.name %></p> 
+        <img src="<%= posts[i].image %>" alt="" width="230px" height="150px" />
+        <p><%= posts[i].content %></p>
+        <a href="/users/postdetail/<%= posts[i]._id %>"><button>More Detail</button></a>
+    </div>
+    <%}%> -->
+</body>
+</html>
